@@ -14,6 +14,15 @@ def sineInc(n, N):
     return (1.0 + math.sin(math.pi * (float(n) / N - 0.5))) / 2
 
 
+def replace_ReLU_by_Lneuron(model, use_TEBN, T, use_SEW):
+    for name, module in model._modules.items():
+        if hasattr(module, "_modules"):
+            model._modules[name] = replace_ReLU_by_Lneuron(module, use_TEBN, T, use_SEW)
+        if isActivation(module.__class__.__name__.lower()):
+            model._modules[name] = LearnableNeuron(use_TEBN=use_TEBN, use_SEW=use_SEW, T=T)
+    return model
+
+
 def replace_QCFS_by_Lneuron(model, use_TEBN, use_SEW, T):
     for name, module in model._modules.items():
         if hasattr(module, "_modules"):

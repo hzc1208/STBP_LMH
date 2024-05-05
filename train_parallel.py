@@ -226,7 +226,7 @@ if __name__ == '__main__':
     else:
         a1, b1, a2, b2 = 0., 0., 0., 0.
 
-    model = replace_ReLU_by_Lneuron(model, a1, b1, a2, b2, args.opt_mode, False, args.time_step, True)
+    model = replace_ReLU_by_Lneuron(model, False, args.time_step, True)
 
     if local_rank == 0:
         print(model)
